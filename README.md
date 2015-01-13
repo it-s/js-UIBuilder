@@ -38,6 +38,3 @@ All you need is a JSON array containing the descriptions of the lements you wish
 ```js
   {cn: [{tg:'input'}]}
 ```
-
-###Examples
-
