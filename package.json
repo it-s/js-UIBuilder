@@ -1,0 +1,28 @@
+{
+  "name": "uibuilder",
+  "version": "0.2.0",
+  "description": "Declarative HTML renderer built to be small",
+  "main": "dist/uibuilder.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/it-s/js-UIBuilder.git"
+  },
+  "keywords": [
+    "html",
+    "js",
+    "declarative"
+  ],
+  "author": "Eugene Trounev [it-s]",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/it-s/js-UIBuilder/issues"
+  },
+  "homepage": "https://github.com/it-s/js-UIBuilder#readme",
+  "devDependencies": {
+    "typescript": "^2.3.1"
+  }
+}
