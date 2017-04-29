@@ -142,3 +142,47 @@ class UIBuilder {
     });
   }
 }
+
+interface IUIComponentAttributes {
+    "id": String,
+    "className": String,
+    "style": Object,
+    "attributes": Array<String>,
+    "data": Array<String>,
+    "actions": Object
+}
+
+class UIComponent implements IUIBuilderElementAttributes {
+  private static attributes = {
+    "id": "id",
+    "className": "cl",
+    "style": "st",
+    "attributes": "ar",
+    "html": "tx",
+    "data": "dt",
+    "actions": "ac"
+  }
+  tg? : string; // tag name
+  id? : string; // element id
+  st? : object; // element styles as object
+  cl? : Array < string > | string; // class list
+  ar? : Object; // attributes
+  dt? : Object; // data attributres
+  tx? : string; // innerText
+  ac? : Object; // actions
+  sc? : Object; // element scope
+  cn? : Array < IUIBuilderElementAttributes >; // element children
+  constructor (tag?: string, attributes?: IUIComponentAttributes, children?: Array<UIComponent> ) {
+    tag &&
+    (this.tg = tag);
+    attributes &&
+    UIBuilderHelpers.isObject(attributes) &&
+    (this.map(attributes));
+    children &&
+    (this.cn = children);
+  }
+  private map(attributes?: IUIComponentAttributes) {
+    for (let key in attributes)
+      this[UIComponent.attributes[key]] = attributes[key];
+  }
+}

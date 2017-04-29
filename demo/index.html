@@ -2,10 +2,31 @@
 <html>
     <head></head>
     <body>
-
-        <script type="text/javascript" src="../dis/uibuilder.js"></script>
+        <div id="container"></div>
+        <script type="text/javascript" src="../dist/uibuilder.js"></script>
         <script type="text/javascript">
-            
+            var html = [
+                new UIComponent("h1", {
+                    html: "UI builder demo page"
+                }),
+                new UIComponent("p", {
+                    html: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                },[
+                    new UIComponent("ul",{},[
+                        new UIComponent("li", {html: "Item 1"}),
+                        new UIComponent("li", {html: "Item 2"}),
+                        new UIComponent("li", {html: "Item 3"}),
+                        new UIComponent("li", {html: "Item 4"})
+                    ])
+                ])
+            ];
+            window.onload = function() {
+                var builder = new UIBuilder();
+                builder.build (
+                    html,
+                    document.getElementById("container")
+                );
+            };
         </script>
     </body>
 </html>
