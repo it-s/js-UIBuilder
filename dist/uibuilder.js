@@ -28,7 +28,7 @@ var UIBuilder = (function () {
     function UIBuilder(options) {
         this._defaults = {
             baseName: "UI",
-            autoID: true
+            autoID: false
         };
         this._attrs = {
             tg: "div",
@@ -69,29 +69,36 @@ var UIBuilder = (function () {
                 .keys(_attrs_1.ac)
                 .forEach(function (key) { return el_1.addEventListener(key, _attrs_1.ac[key].bind(_attrs_1.sc)); });
             el_1.innerHTML = _attrs_1.tx;
-            UIBuilderHelpers.isObject(parent) && (parent.appendChild(el_1));
+            parent &&
+                UIBuilderHelpers.isObject(parent) &&
+                (parent.appendChild(el_1));
             return el_1;
         }
         catch (e) {
             console.error("UIBuilder._buildElement internal error. Details: " + e);
         }
+        return new HTMLElement;
     };
     UIBuilder.prototype._build = function (node, root) {
         var el;
         this._lvl++;
         try {
             for (var i = 0; i < node.length; i++) {
+                var children = node[i].cn;
                 el = this._buildElement(node[i], root);
-                UIBuilderHelpers.isDefined(node[i].cn) && (this._build(node[i].cn, el));
+                children &&
+                    UIBuilderHelpers.isDefined(children) &&
+                    (this._build(children, el));
             }
             node.forEach(function (attrs) {
             });
             this._lvl--;
-            return root || el;
+            return root || el || new HTMLElement;
         }
         catch (e) {
             console.error("UIBuilder._build internal error. Details: " + e);
         }
+        return new HTMLElement;
     };
     UIBuilder.prototype.getElementCount = function () {
         return this._elementCount;
@@ -129,8 +136,9 @@ var UIComponent = (function () {
             (this.cn = children);
     }
     UIComponent.prototype.map = function (attributes) {
-        for (var key in attributes)
-            this[UIComponent.attributes[key]] = attributes[key];
+        if (attributes)
+            for (var key in attributes)
+                this[UIComponent.attributes[key]] = attributes[key];
     };
     return UIComponent;
 }());

@@ -25,7 +25,11 @@
                 builder.build (
                     html,
                     document.getElementById("container")
-                );
+                ).then(function(result){
+                    console.log("Finished building " + result.tag);
+                }).catch(function(error){
+                    console.error(error);
+                });
             };
         </script>
     </body>

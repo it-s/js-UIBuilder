@@ -17,7 +17,7 @@ interface IUIBuilderElementAttributes {
 declare class UIBuilderHelpers {
     static isDefined(v: any): boolean;
     static isObject(v: any): boolean;
-    static printf(str: string, scope: Object): string;
+    static printf(str: string, scope: any): string;
 }
 declare class UIBuilder {
     private _defaults;
@@ -38,8 +38,9 @@ interface IUIComponentAttributes {
     "id": String;
     "className": String;
     "style": Object;
-    "attributes": Array<String>;
-    "data": Array<String>;
+    "attributes": Array<String> | string;
+    "html": String;
+    "data": Array<String> | string;
     "actions": Object;
 }
 declare class UIComponent implements IUIBuilderElementAttributes {
