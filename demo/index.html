@@ -17,7 +17,14 @@
                         new UIComponent("li", {html: "Item 2"}),
                         new UIComponent("li", {html: "Item 3"}),
                         new UIComponent("li", {html: "Item 4"})
-                    ])
+                    ]),
+                    new UIComponent("p",{
+                        html: "Hi {{user}} user name is: {{user}}. Your amount is: {{amount}}",
+                        scope: {
+                            user: () => "User",
+                            amount: 315
+                        }
+                    })
                 ])
             ];
             window.onload = function() {

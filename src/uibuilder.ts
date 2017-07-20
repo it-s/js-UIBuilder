@@ -1,3 +1,5 @@
+import UIBuilderHelpers from "./uibuilderHelpers";
+
 interface IUIBuilderOptions {
   baseName: string;
   autoID: boolean;
@@ -15,72 +17,6 @@ interface IUIBuilderElementAttributes {
   sc?: Object; // element scope
   cn?: Array<IUIBuilderElementAttributes>; // element children
 }
-
-class UIBuilderHelpers {
-  public static isDefined(v: any) {
-    return v != undefined;
-  }
-  public static isObject(v: any) {
-    return (this.isDefined(v) && typeof v == "object");
-  }
-  public static printf(str: string, scope: any) {
-    let regex = /\{\{(\w+)\}\}/g;
-    let instance: string = str;
-    let from: string, to: string, m: RegExpExecArray | null;
-    if (this.isObject(scope))
-      while ((m = regex.exec(str)) !== null) {
-        from = <string>m[0]; to = <string>scope[m[1]];
-        this.isDefined(to) &&
-          (instance = instance.replace(from, to));
-      }
-    else return str;
-    return instance;
-  }
-}
-
-// enum UIBuilderPromiseState {
-//   PENDING,
-//   FULFILLED,
-//   REJECTED
-// }
-
-// class UIBuilderPromiseable {
-//   private resolver: UIBuilderPromise;
-//   constructor (resolver: UIBuilderPromise) {
-//     this.resolver = resolver;
-//   }
-//   resolve (value: any) {
-//     this.resolver.onSuccess(value);
-//   }
-//   reject (error: any) {
-//     this.resolver.onFalure(error);
-//   }
-// }
-
-// class UIBuilderPromise {
-//   private scope: any;
-//   onSuccess: Function = new Function;
-//   onFalure: Function = new Function;
-//   constructor (fn: Function, scope?: any) {
-//     let promise = new UIBuilderPromiseable(this);
-//     this.scope = scope;
-//     //fn(promise.resolve.bind(promise), promise.reject.bind(promise));
-//   }
-//   then (fn: Function): UIBuilderPromise {
-//     this.onSuccess = this.scope ?
-//     fn.bind(this.scope) :
-//     fn;
-//     return this;
-//   }
-//   catch (fn: Function): UIBuilderPromise {
-//     this.onFalure = this.scope ?
-//     fn.bind(this.scope) :
-//     fn;
-//     return this;
-//   }
-// }
-
-// https://gist.github.com/unscriptable/814052
 
 class UIBuilder {
   private _defaults: IUIBuilderOptions = {
@@ -117,29 +53,29 @@ class UIBuilder {
       let el: HTMLElement = document.createElement(_attrs.tg);
       //set element ID:
       _attrs.id !== "" && (el.id = _attrs.id);
-      //set element calsses (if any):
+      //set element classes (if any):
       ((v: any): Array<any> => {
         return UIBuilderHelpers.isObject(v) ?
           v :
           v.split(" ");
       })(_attrs.cl)
         .forEach((cls) => el.classList.add(cls));
-      //ser element attributes (if any):
+      //set element attributes (if any):
       (<any>Object)
         .keys(_attrs.ar)
         .forEach((key: string) => el.setAttribute(key, _attrs.ar[key]));
-      //ser element data attributes (if any):
+      //set element data attributes (if any):
       (<any>Object)
         .keys(_attrs.dt)
         .forEach((key: string) => el.setAttribute("data-" + key, _attrs.ar[key]));
-      //ser element styles (if any):
+      //set element styles (if any):
       (<any>Object).assign(el.style, _attrs.st);
-      //ser element actions (if any):
+      //set element actions (if any):
       (<any>Object)
         .keys(_attrs.ac)
         .forEach((key: string) => el.addEventListener(key, _attrs.ac[key].bind(_attrs.sc)));
       //set element inner HTML (if any)
-      el.innerHTML = _attrs.tx;
+      el.innerHTML = UIBuilderHelpers.printf(_attrs.tx, _attrs.sc);
       //append element to the parent element (if set)
       parent &&
         UIBuilderHelpers.isObject(parent) &&
@@ -180,7 +116,7 @@ class UIBuilder {
     return this.baseName;
   }
 
-  public build(spec: any, parent?: HTMLElement) {
+  public build(spec: any, parent?: HTMLElement): Promise<HTMLElement> {
     if (!UIBuilderHelpers.isObject(spec))
       throw new TypeError("UIBuilder.build(spec, parent): spec must be an array");
     this._lvl = 0;
@@ -201,6 +137,7 @@ interface IUIComponentAttributes {
   "attributes": Array<String> | string,
   "html": String,
   "data": Array<String> | string,
+  "scope": Object,
   "actions": Object
 }
 
@@ -212,6 +149,7 @@ class UIComponent implements IUIBuilderElementAttributes {
     "attributes": "ar",
     "html": "tx",
     "data": "dt",
+    "scope": "sc",
     "actions": "ac"
   }
   tg?: string; // tag name
