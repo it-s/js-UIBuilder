@@ -1,17 +1,17 @@
 export default class UIBuilderHelpers {
-  public static isDefined(v: any) {
+  static isDefined(v) {
     return v != undefined;
   }
-  public static isObject(v: any) {
+  static isObject(v) {
     return (this.isDefined(v) && typeof v == "object");
   }
-  public static printf(str: string, scope: any) {
+  static printf(str, scope) {
     let regex = /\{\{(\w+)\}\}/g;
-    let instance: string = str;
-    let from: string, to: string, m: RegExpExecArray | null;
+    let instance = str;
+    let from, to, m;
     if (this.isObject(scope))
       while ((m = regex.exec(str)) !== null) {
-        from = <string>m[0]; to = <string>scope[m[1]];
+        from = m[0]; to = scope[m[1]];
         this.isDefined(to) &&
           (instance = instance.replace(from, to));
       }
