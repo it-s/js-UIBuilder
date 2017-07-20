@@ -1,8 +1,10 @@
 import UIBuilderHelpers from "./uiBuilderHelpers";
 
 export default class UIComponent {
+  static SVG_NS_ATTR = "http://www.w3.org/2000/svg";
   static attributes = {
     "id": "id",
+    "ns": "ns",
     "className": "cl",
     "style": "st",
     "attributes": "ar",
@@ -13,6 +15,7 @@ export default class UIComponent {
   };
   tg; // tag name
   id; // element id
+  ns; // NS element attr
   st; // element styles as object
   cl; // class list
   ar; // attributes

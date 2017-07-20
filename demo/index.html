@@ -1,43 +1,88 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
-        <div id="container"></div>
-        <script type="text/javascript" src="../dist/uibuilder.js"></script>
-        <script type="text/javascript">
-            var html = [
-                new UIComponent("h1", {
-                    html: "UI builder demo page"
-                }),
-                new UIComponent("p", {
-                    html: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                },[
-                    new UIComponent("ul",{},[
-                        new UIComponent("li", {html: "Item 1"}),
-                        new UIComponent("li", {html: "Item 2"}),
-                        new UIComponent("li", {html: "Item 3"}),
-                        new UIComponent("li", {html: "Item 4"})
-                    ]),
-                    new UIComponent("p",{
+
+<head></head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/javascript" src="../dist/uibuilder.js"></script>
+    <script type="text/javascript">
+        var Spinner = function () {
+            return new UIComponent('div', {
+                className: "hb-spinner",
+                style: {
+                    'display': 'block',
+                    'margin-bottom': 0,
+                    'width': '80px',
+                    'height': '80px',
+                    'line-height': '80px',
+                    'background-color': 'rgba(0,0,0,0.5)',
+                    'border-radius': '10px'
+                }
+            },
+                new UIComponent('svg', {
+                    className: "hb-spinner-rotator",
+                    ns: 'http://www.w3.org/2000/svg',
+                    style: {
+                        'overflov': 'hidden',
+                        'display': 'inline-block',
+                        'margin': '10px'
+                    },
+                    attributes: {
+                        'width': "60", 'height': "60", 'viewBox': "0 0 30 30"
+                    }
+                },
+                    new UIComponent('circle', {
+                        ns: 'http://www.w3.org/2000/svg',
+                        style: {
+                            'stroke-dasharray': '88px',
+                            'stroke-dashoffset': 0,
+                            'transform-origin': 'center',
+                            '-webkit-animation': 'hb-spinner-dash 1.4s ease-in-out infinite',
+                            'animation': 'uk-spinner-dash 1.4s ease-in-out infinite',
+                            'stroke-width': 1,
+                            'stroke-linecap': 'round'
+                        },
+                        attributes: {
+                            'fill': "none", 'stroke': "#fff", 'cx': "15", 'cy': "15", 'r': "14"
+                        }
+                    })
+                )
+            );
+        };
+        var html = [
+            new UIComponent("h1", {
+                html: "UI builder demo page"
+            }),
+            new UIComponent("p", {
+                html: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            }, [
+                    new UIComponent("ul", {}, [1,2,3,4].map(function(n){
+                            return new UIComponent("li", { html: "Item {{n}}", scope: {n:n}});
+                        })
+                    ),
+                    new UIComponent("p", {
                         html: "Hi {{user}} user name is: {{user}}. Your amount is: {{amount}}",
                         scope: {
                             user: () => "User",
                             amount: 315
                         }
                     })
-                ])
-            ];
-            window.onload = function() {
-                var builder = new UIBuilder();
-                builder.build (
-                    html,
-                    document.getElementById("container")
-                ).then(function(result){
-                    console.log("Finished building " + result.tag);
-                }).catch(function(error){
-                    console.error(error);
-                });
-            };
-        </script>
-    </body>
+                ]),
+            Spinner(), "Test span"
+        ];
+        window.onload = function () {
+            var builder = new UIBuilder();
+            builder.build(
+                html,
+                document.getElementById("container")
+            ).then(function (result) {
+                console.log("Finished building " + result.tag);
+            }).catch(function (error) {
+                console.error(error);
+            });
+        };
+    </script>
+</body>
+
 </html>

@@ -9,6 +9,7 @@ class UIBuilder {
   _attrs = {
     tg: "div",
     id: "",
+    ns: false,
     cl: [],
     st: {},
     ar: {},
@@ -28,8 +29,12 @@ class UIBuilder {
       this.autoID &&
         _attrs.id === "" &&
         (_attrs.id = this.getNextID());
+      //handle string element
+      UIBuilderHelpers.isString(attrs) &&
+      (_attrs.tg = "span", _attrs.tx = attrs.valueOf());
       //create base element:
-      let el = document.createElement(_attrs.tg);
+      let el = _attrs.ns ? document.createElementNS(_attrs.ns, _attrs.tg) :
+        document.createElement(_attrs.tg);
       //set element ID:
       _attrs.id !== "" && (el.id = _attrs.id);
       //set element classes (if any):
@@ -66,17 +71,23 @@ class UIBuilder {
   }
   _build(node, root) {
     let el;
+    let worker = (node => {
+      var children = node.cn;
+      el = this._buildElement(node, root);
+      children &&
+        UIBuilderHelpers.isDefined(children) &&
+        (this._build(children, el));
+    }).bind(this);
     this._lvl++;
     try {
-      for (let i = 0; i < node.length; i++) {
-        let children = node[i].cn;
-        el = this._buildElement(node[i], root);
-        children &&
-          UIBuilderHelpers.isDefined(children) &&
-          (this._build(children, el));
+      switch (true) {
+        case UIBuilderHelpers.isArray(node):
+          for (var i = 0; i < node.length; i++) worker(node[i]);
+          break;
+        case UIBuilderHelpers.isObject(node):
+          worker(node);
+          break;
       }
-      node.forEach((attrs) => {
-      });
       this._lvl--;
       return root || el || new HTMLElement;
     } catch (e) {
