@@ -5,7 +5,7 @@ import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
 
 export default {
-  entry: 'src/uiBuilder.js',
+  entry: 'src/index.js',
   format: 'cjs',
   sourceMap: true,
   plugins: [
@@ -14,7 +14,7 @@ export default {
     babel({
       exclude: 'node_modules/**' // only transpile our source code
     }),
-    (process.env.NODE_ENV === 'production' && uglify()),
+    (!process.env.DEBUG && uglify()),
   ],
   dest: 'dist/uibuilder.js'
 };

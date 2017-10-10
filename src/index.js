@@ -1,3 +1,3 @@
-export {* as UIComponent} from "./uiComponent";
-export {* as SVGUIComponent} from "./svgUiComponent";
-export {* as UIBuilder} from "./uiBuilder";
+export {default as UIComponent} from "./uiComponent";
+export {default as SVGUIComponent} from "./svgUiComponent";
+export {default as UIBuilder} from "./uiBuilder";
