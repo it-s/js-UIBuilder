@@ -1,10 +1,11 @@
 import UIBuilderHelpers from "./uiBuilderHelpers";
 import UIComponent from "./uiComponent";
 
-class UIBuilder {
+export default class UIBuilder {
   _defaults = {
     baseName: "UI",
-    autoID: false
+    autoID: false,
+    nestedStyles: false
   };
   _attrs = {
     tg: "div",
@@ -18,9 +19,13 @@ class UIBuilder {
     ac: {},
     sc: {}
   };
+  _style = [];
   constructor(options) {
     (Object).assign(this, this._defaults, options);
     this._elementCount = this._lvl = 0;
+  }
+  _parseStyle(el, style) {
+
   }
   _buildElement(attrs, parent) {
     try {
