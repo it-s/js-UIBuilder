@@ -14,7 +14,7 @@ export default {
     babel({
       exclude: 'node_modules/**' // only transpile our source code
     }),
-    (process.env.NODE_ENV === 'production' && uglify()),
+    (!process.env.DEBUG && uglify()),
   ],
   dest: 'dist/uibuilder.js'
 };
