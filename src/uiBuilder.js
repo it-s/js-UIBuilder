@@ -1,5 +1,4 @@
 import UIBuilderHelpers from "./uiBuilderHelpers";
-import UIComponent from "./uiComponent";
 
 export default class UIBuilder {
   _defaults = {

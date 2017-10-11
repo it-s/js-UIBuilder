@@ -2,7 +2,7 @@
   "name": "uibuilder",
   "version": "0.3.0",
   "description": "Declarative HTML renderer built to be small",
-  "main": "src/index.js",
+  "main": "src/uiBuilder.js",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
