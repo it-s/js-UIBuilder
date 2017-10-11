@@ -1,26 +1,27 @@
 import UIBuilderHelpers from "./uiBuilderHelpers";
 
-export default class UIBuilder {
-  _defaults = {
-    baseName: "UI",
-    autoID: false,
-    nestedStyles: false
-  };
-  _attrs = {
-    tg: "div",
-    id: "",
-    ns: false,
-    cl: [],
-    st: {},
-    ar: {},
-    dt: {},
-    tx: "",
-    ac: {},
-    sc: {}
-  };
-  _style = [];
+const UIBuilder_defaults = {
+  baseName: "UI",
+  autoID: false,
+  nestedStyles: false
+};
+const UIBuilder_attrs = {
+  tg: "div",
+  id: "",
+  ns: false,
+  cl: [],
+  st: {},
+  ar: {},
+  dt: {},
+  tx: "",
+  ac: {},
+  sc: {}
+};
+
+export default class UIBuilder {  
   constructor(options) {
-    (Object).assign(this, this._defaults, options);
+    (Object).assign(this, UIBuilder_defaults, options);
+    this._style = [];
     this._elementCount = this._lvl = 0;
   }
   _parseStyle(el, style) {
@@ -28,7 +29,7 @@ export default class UIBuilder {
   }
   _buildElement(attrs, parent) {
     try {
-      let _attrs = (Object).assign({}, this._attrs, attrs);
+      let _attrs = (Object).assign({}, UIBuilder_attrs, attrs);
       //assign unique element id
       this.autoID &&
         _attrs.id === "" &&

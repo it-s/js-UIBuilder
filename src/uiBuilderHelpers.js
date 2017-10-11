@@ -7,7 +7,7 @@ export default class UIBuilderHelpers {
   }
   static isArray(v) {
     return (this.isDefined(v) && typeof v == "object" && v["length"] !== undefined);
-  };
+  }
   static isString(v) {
     return (this.isDefined(v) && typeof v == "string");
   }
@@ -16,7 +16,6 @@ export default class UIBuilderHelpers {
     let instance = str;
     let from, to, m;
     if (this.isObject(scope)) {
-      debugger;
       while ((m = regex.exec(str)) !== null) {
         from = m[0]; to = scope[m[1]];
         this.isDefined(to) &&
